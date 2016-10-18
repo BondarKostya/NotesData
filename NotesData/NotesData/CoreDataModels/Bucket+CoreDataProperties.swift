@@ -9,15 +9,17 @@
 import Foundation
 import CoreData
 
+
 extension Bucket {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Bucket> {
         return NSFetchRequest<Bucket>(entityName: "Bucket");
     }
 
-    @NSManaged public var title: String?
     @NSManaged public var createdDate: NSDate?
     @NSManaged public var modifiedDate: NSDate?
+    @NSManaged public var title: String?
+    @NSManaged public var color: String?
     @NSManaged public var notes: NSSet?
 
 }

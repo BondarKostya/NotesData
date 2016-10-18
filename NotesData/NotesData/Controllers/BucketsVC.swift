@@ -10,26 +10,51 @@ import UIKit
 
 class BucketsVC: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
+    
+    var buckets = [Bucket]()
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+        self.loadBuckets()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func loadBuckets() {
+        
     }
-    */
 
+    
+    @IBAction func addBucket(_ sender: UIBarButtonItem) {
+        self.showBucketDetailVC(bucket: nil)
+    }
+    
+    func showBucketDetailVC(bucket: Bucket?) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let bucketDetailVC = storyboard.instantiateViewController(withIdentifier: "BucketDetailVC") as! BucketDetailVC
+        
+        bucketDetailVC.bucket = bucket
+        
+        self.navigationController?.show(bucketDetailVC, sender: self)
+    }
+    
 }
+
+extension BucketsVC : UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.buckets.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let bucket = buckets[indexPath.row]
+        self.showBucketDetailVC(bucket: bucket)
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BucketTVC", for: indexPath) as! BucketTVC
+        let bucket = buckets[indexPath.row]
+        cell.setupView(withBucket: bucket)
+        
+        return cell
+    }
+}
+

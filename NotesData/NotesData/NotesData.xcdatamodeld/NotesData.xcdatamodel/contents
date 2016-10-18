@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11232" systemVersion="16A323" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Bucket" representedClassName=".Bucket" syncable="YES">
+        <attribute name="color" attributeType="String" syncable="YES"/>
         <attribute name="createdDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="modifiedDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
@@ -14,7 +15,7 @@
         <relationship name="buckets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bucket" inverseName="notes" inverseEntity="Bucket" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Note" positionX="403" positionY="6" width="128" height="118"/>
-        <element name="Bucket" positionX="745" positionY="18" width="128" height="103"/>
+        <element name="Bucket" positionX="745" positionY="18" width="128" height="120"/>
+        <element name="Note" positionX="403" positionY="6" width="128" height="120"/>
     </elements>
 </model>

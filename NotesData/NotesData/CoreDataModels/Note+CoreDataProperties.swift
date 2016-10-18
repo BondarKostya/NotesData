@@ -15,10 +15,10 @@ extension Note {
         return NSFetchRequest<Note>(entityName: "Note");
     }
 
-    @NSManaged public var text: String?
-    @NSManaged public var createdDate: NSDate?
     @NSManaged public var accessedDate: NSDate?
+    @NSManaged public var createdDate: NSDate?
     @NSManaged public var modifiedDate: NSDate?
+    @NSManaged public var text: String?
     @NSManaged public var buckets: NSSet?
 
 }
