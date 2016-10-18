@@ -13,6 +13,16 @@
 		3D3355501DB6397000BC0946 /* NotesData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3D33554E1DB6397000BC0946 /* NotesData.xcdatamodeld */; };
 		3D3355521DB6397000BC0946 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D3355511DB6397000BC0946 /* Assets.xcassets */; };
 		3D3355551DB6397000BC0946 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D3355531DB6397000BC0946 /* LaunchScreen.storyboard */; };
+		3D33556D1DB63BE100BC0946 /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3355691DB63BE100BC0946 /* Note+CoreDataClass.swift */; };
+		3D33556E1DB63BE100BC0946 /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D33556A1DB63BE100BC0946 /* Note+CoreDataProperties.swift */; };
+		3D33556F1DB63BE100BC0946 /* Bucket+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D33556B1DB63BE100BC0946 /* Bucket+CoreDataClass.swift */; };
+		3D3355701DB63BE100BC0946 /* Bucket+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D33556C1DB63BE100BC0946 /* Bucket+CoreDataProperties.swift */; };
+		3D3355731DB63CFE00BC0946 /* NotesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3355721DB63CFE00BC0946 /* NotesVC.swift */; };
+		3D3355751DB63D1800BC0946 /* BucketsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3355741DB63D1800BC0946 /* BucketsVC.swift */; };
+		3D3355771DB63D8B00BC0946 /* NoteDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3355761DB63D8A00BC0946 /* NoteDetailVC.swift */; };
+		3D33557A1DB63EE400BC0946 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3355791DB63EE400BC0946 /* CoreDataManager.swift */; };
+		3D33557C1DB642A800BC0946 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D33557B1DB642A800BC0946 /* Note.swift */; };
+		3D33557E1DB6479700BC0946 /* NoteBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D33557D1DB6479700BC0946 /* NoteBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +34,16 @@
 		3D3355511DB6397000BC0946 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3D3355541DB6397000BC0946 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3D3355561DB6397000BC0946 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3D3355691DB63BE100BC0946 /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Note+CoreDataClass.swift"; path = "NotesData/CoreDataModels/Note+CoreDataClass.swift"; sourceTree = "<group>"; };
+		3D33556A1DB63BE100BC0946 /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Note+CoreDataProperties.swift"; path = "NotesData/CoreDataModels/Note+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		3D33556B1DB63BE100BC0946 /* Bucket+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Bucket+CoreDataClass.swift"; path = "NotesData/CoreDataModels/Bucket+CoreDataClass.swift"; sourceTree = "<group>"; };
+		3D33556C1DB63BE100BC0946 /* Bucket+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Bucket+CoreDataProperties.swift"; path = "NotesData/CoreDataModels/Bucket+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		3D3355721DB63CFE00BC0946 /* NotesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotesVC.swift; path = Controllers/NotesVC.swift; sourceTree = "<group>"; };
+		3D3355741DB63D1800BC0946 /* BucketsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BucketsVC.swift; path = Controllers/BucketsVC.swift; sourceTree = "<group>"; };
+		3D3355761DB63D8A00BC0946 /* NoteDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoteDetailVC.swift; path = Controllers/NoteDetailVC.swift; sourceTree = "<group>"; };
+		3D3355791DB63EE400BC0946 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		3D33557B1DB642A800BC0946 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Note.swift; path = Models/Note.swift; sourceTree = "<group>"; };
+		3D33557D1DB6479700BC0946 /* NoteBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoteBuilder.swift; path = Models/NoteBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +76,10 @@
 		3D3355461DB6397000BC0946 /* NotesData */ = {
 			isa = PBXGroup;
 			children = (
+				3D33557F1DB647BB00BC0946 /* Models */,
+				3D3355781DB63ECC00BC0946 /* DataManager */,
+				3D3355641DB63B7000BC0946 /* CoreDataModels */,
+				3D3355711DB63CD800BC0946 /* Controllers */,
 				3D3355471DB6397000BC0946 /* AppDelegate.swift */,
 				3D3355491DB6397000BC0946 /* ViewController.swift */,
 				3D33554B1DB6397000BC0946 /* Main.storyboard */,
@@ -63,8 +87,47 @@
 				3D3355531DB6397000BC0946 /* LaunchScreen.storyboard */,
 				3D3355561DB6397000BC0946 /* Info.plist */,
 				3D33554E1DB6397000BC0946 /* NotesData.xcdatamodeld */,
+				3D33557B1DB642A800BC0946 /* Note.swift */,
 			);
 			path = NotesData;
+			sourceTree = "<group>";
+		};
+		3D3355641DB63B7000BC0946 /* CoreDataModels */ = {
+			isa = PBXGroup;
+			children = (
+				3D3355691DB63BE100BC0946 /* Note+CoreDataClass.swift */,
+				3D33556A1DB63BE100BC0946 /* Note+CoreDataProperties.swift */,
+				3D33556B1DB63BE100BC0946 /* Bucket+CoreDataClass.swift */,
+				3D33556C1DB63BE100BC0946 /* Bucket+CoreDataProperties.swift */,
+			);
+			name = CoreDataModels;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		3D3355711DB63CD800BC0946 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3D3355721DB63CFE00BC0946 /* NotesVC.swift */,
+				3D3355741DB63D1800BC0946 /* BucketsVC.swift */,
+				3D3355761DB63D8A00BC0946 /* NoteDetailVC.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		3D3355781DB63ECC00BC0946 /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				3D3355791DB63EE400BC0946 /* CoreDataManager.swift */,
+			);
+			name = DataManager;
+			sourceTree = "<group>";
+		};
+		3D33557F1DB647BB00BC0946 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3D33557D1DB6479700BC0946 /* NoteBuilder.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,8 +203,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D3355501DB6397000BC0946 /* NotesData.xcdatamodeld in Sources */,
+				3D33556F1DB63BE100BC0946 /* Bucket+CoreDataClass.swift in Sources */,
+				3D3355731DB63CFE00BC0946 /* NotesVC.swift in Sources */,
+				3D33556D1DB63BE100BC0946 /* Note+CoreDataClass.swift in Sources */,
+				3D3355751DB63D1800BC0946 /* BucketsVC.swift in Sources */,
+				3D33557E1DB6479700BC0946 /* NoteBuilder.swift in Sources */,
+				3D3355771DB63D8B00BC0946 /* NoteDetailVC.swift in Sources */,
+				3D3355701DB63BE100BC0946 /* Bucket+CoreDataProperties.swift in Sources */,
 				3D33554A1DB6397000BC0946 /* ViewController.swift in Sources */,
 				3D3355481DB6397000BC0946 /* AppDelegate.swift in Sources */,
+				3D33556E1DB63BE100BC0946 /* Note+CoreDataProperties.swift in Sources */,
+				3D33557A1DB63EE400BC0946 /* CoreDataManager.swift in Sources */,
+				3D33557C1DB642A800BC0946 /* Note.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
