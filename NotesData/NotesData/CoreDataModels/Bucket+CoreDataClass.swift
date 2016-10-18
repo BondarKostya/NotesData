@@ -12,6 +12,9 @@ import UIKit
 
 public class Bucket: NSManagedObject {
 
+    
+    
+    
     func bucketColor() -> UIColor {
         switch self.color ?? "" {
         case "red" :

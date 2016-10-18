@@ -117,7 +117,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Zaj-WO-3ay">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="abj-kt-Qnw" customClass="BucketTVC" customModule="NotesData" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="BucketTVC" id="abj-kt-Qnw" customClass="BucketTVC" customModule="NotesData" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="abj-kt-Qnw" id="PNn-Pr-Ups">
@@ -226,6 +226,16 @@
                                     <action selector="chooseColor:" destination="fN9-yv-SXc" eventType="touchUpInside" id="fdh-cp-gG5"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ibg-0v-Ya5">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="J6m-rB-0cl"/>
+                                    <constraint firstAttribute="width" constant="46" id="TiW-uE-Nfm"/>
+                                </constraints>
+                                <state key="normal" title="Save"/>
+                                <connections>
+                                    <action selector="saveAction:" destination="fN9-yv-SXc" eventType="touchUpInside" id="JlB-Ta-8Zl"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PQa-QX-c23">
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R30-Vx-UPX">
@@ -256,6 +266,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="F0J-Vv-rjC" firstAttribute="leading" secondItem="DQV-vR-aPC" secondAttribute="trailing" constant="15" id="09v-TU-2rc"/>
+                            <constraint firstItem="ibg-0v-Ya5" firstAttribute="centerX" secondItem="cRR-CH-r5s" secondAttribute="centerX" id="Dx6-Z3-eai"/>
                             <constraint firstAttribute="trailing" secondItem="hHj-mn-pOX" secondAttribute="trailing" constant="15" id="Fr4-kc-iYM"/>
                             <constraint firstItem="F0J-Vv-rjC" firstAttribute="centerY" secondItem="DQV-vR-aPC" secondAttribute="centerY" id="GdX-sz-DPs"/>
                             <constraint firstItem="DQV-vR-aPC" firstAttribute="leading" secondItem="cRR-CH-r5s" secondAttribute="leading" constant="15" id="HFy-Jj-0ic"/>
@@ -268,6 +279,7 @@
                             <constraint firstItem="PQa-QX-c23" firstAttribute="leading" secondItem="cRR-CH-r5s" secondAttribute="leading" id="jQa-su-GV9"/>
                             <constraint firstAttribute="trailing" secondItem="F0J-Vv-rjC" secondAttribute="trailing" constant="15" id="oJH-GK-WbS"/>
                             <constraint firstItem="hHj-mn-pOX" firstAttribute="leading" secondItem="mIs-0d-TFb" secondAttribute="trailing" constant="10" id="pKg-IV-4xa"/>
+                            <constraint firstItem="ibg-0v-Ya5" firstAttribute="top" secondItem="F0J-Vv-rjC" secondAttribute="bottom" constant="40" id="qJ5-DN-2fR"/>
                             <constraint firstItem="mIs-0d-TFb" firstAttribute="top" secondItem="2eh-9Q-7pY" secondAttribute="bottom" constant="40" id="xNu-Ld-HtR"/>
                         </constraints>
                     </view>

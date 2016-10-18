@@ -33,12 +33,25 @@ class BucketDetailVC: UIViewController {
             self.title = "New bucket"
         }
         
+
     }
 
 
     func changePickerHideState(isHide: Bool) {
         self.pickerBackgroundView.isHidden = isHide
         self.pickerView.isHidden = isHide
+    }
+    
+    @IBAction func saveAction(_ sender: UIButton) {
+        CoreDataManager.shared.createNewBucket(buildBucket: { (bucket) -> Bucket in
+            bucket.color = "red"
+            bucket.title = self.nameTextField.text ?? "Wrong"
+            bucket.createdDate = NSDate()
+            bucket.modifiedDate = NSDate()
+            return bucket
+            }, handler: { response in
+                print(response)
+        })
     }
     
     @IBAction func chooseColor(_ sender: UIButton) {

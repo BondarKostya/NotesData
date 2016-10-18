@@ -56,9 +56,32 @@ class CoreDataManager {
 //
 //    }
     
-    func createNewBucket(withDictionary noteDictionary: [String : AnyObject] , handler: (Bool) -> Void) {
+    
+    func loadBuckets(withPage page: Int, limit: Int, handler: @escaping ([Bucket],Error?) -> Void ) {
+    
+        let notesFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Bucket")
+        notesFetchRequest.fetchLimit = limit
+        notesFetchRequest.fetchOffset = (page - 1) * limit
+    
+        let asyncRequest = NSAsynchronousFetchRequest(fetchRequest: notesFetchRequest) { (asynchronousFetchResult) in
+            DispatchQueue.main.async {
+                let notes = asynchronousFetchResult.finalResult!.flatMap() { note in
+                    return note as? Bucket
+                }
+                handler(notes,nil)
+            }
+        }
+        do {
+            try self.context?.execute(asyncRequest)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func createNewBucket(buildBucket: (Bucket) -> Bucket, handler: (Bool) -> Void) {
         var newBucket = NSEntityDescription.insertNewObject(forEntityName: "Bucket", into: self.context!) as! Bucket
         //newBucket. = //NoteBuilder().buildNote(note: newNote, dictionary: noteDictionary)
+        newBucket = buildBucket(newBucket)
         
         do {
             try self.context!.save()

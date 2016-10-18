@@ -20,7 +20,10 @@ class BucketsVC: UIViewController {
     }
     
     func loadBuckets() {
-        
+        CoreDataManager.shared.loadBuckets(withPage: 1, limit: 10) { (buckets, error) in
+            self.buckets = buckets
+            self.tableView.reloadData()
+        }
     }
 
     
