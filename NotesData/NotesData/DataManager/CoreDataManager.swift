@@ -56,14 +56,13 @@ class CoreDataManager {
 //
 //    }
     
+    //MARK: - Buckets
     
-    func loadBuckets(withPage page: Int, limit: Int, handler: @escaping ([Bucket],Error?) -> Void ) {
+    func loadBuckets(_ handler: @escaping ([Bucket],Error?) -> Void ) {
     
-        let notesFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Bucket")
-        notesFetchRequest.fetchLimit = limit
-        notesFetchRequest.fetchOffset = (page - 1) * limit
+        let bucketsFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Bucket")
     
-        let asyncRequest = NSAsynchronousFetchRequest(fetchRequest: notesFetchRequest) { (asynchronousFetchResult) in
+        let asyncRequest = NSAsynchronousFetchRequest(fetchRequest: bucketsFetchRequest) { (asynchronousFetchResult) in
             DispatchQueue.main.async {
                 let notes = asynchronousFetchResult.finalResult!.flatMap() { note in
                     return note as? Bucket
@@ -74,21 +73,71 @@ class CoreDataManager {
         do {
             try self.context?.execute(asyncRequest)
         } catch {
-            print(error)
+            handler([], error)
         }
     }
     
-    func createNewBucket(buildBucket: (Bucket) -> Bucket, handler: (Bool) -> Void) {
-        var newBucket = NSEntityDescription.insertNewObject(forEntityName: "Bucket", into: self.context!) as! Bucket
-        //newBucket. = //NoteBuilder().buildNote(note: newNote, dictionary: noteDictionary)
-        newBucket = buildBucket(newBucket)
+    
+    
+    func createNewBucket(title: String,buildBucket: (Bucket) -> Void, handler: (Error?) -> Void) {
+        let titleCheckRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Bucket")
+        titleCheckRequest.predicate = NSPredicate(format: " title == %@", title)
+        
+        let existingBucket = (try? self.context!.fetch(titleCheckRequest) as! [Bucket]) ?? []
+        
+        if existingBucket.count > 0 {
+            handler(NSError.generateError(withMessage: "Bucket with \"\(title)\" existing"))
+            return
+        }
+        
+        let newBucket = NSEntityDescription.insertNewObject(forEntityName: "Bucket", into: self.context!) as! Bucket
+        
+        buildBucket(newBucket)
+        
+        newBucket.createdDate = NSDate()
+        newBucket.modifiedDate = NSDate()
         
         do {
             try self.context!.save()
-            handler(true)
+            handler(nil)
         } catch {
-            handler(false)
-            fatalError("Failure to save context: \(error)")
+            handler(error)
+        }
+    }
+    
+    func updateBucket(bucket: Bucket, updateBucket: (Bucket) -> Void, handler: (Error?) -> Void) {
+        
+        guard let existingBucket = try! self.context?.existingObject(with: bucket.objectID) as? Bucket  else {
+            self.createNewBucket(title: bucket.title!, buildBucket: updateBucket, handler: handler)
+            return
+        }
+        
+        updateBucket(existingBucket)
+
+        existingBucket.createdDate = NSDate()
+        existingBucket.modifiedDate = NSDate()
+        
+        do {
+            try self.context!.save()
+            handler(nil)
+        } catch {
+            handler(error)
+        }
+    }
+    
+    func removeBucket(bucket: Bucket, handler: (Error?) -> Void) {
+        guard let bucket = try! self.context?.existingObject(with: bucket.objectID) as? Bucket  else {
+            handler(NSError.generateError(withMessage: "Not found"))
+            return
+        }
+        
+        self.context!.delete(bucket)
+        
+        do {
+            try self.context!.save()
+            handler(nil)
+        } catch {
+            handler(error)
         }
         
     }

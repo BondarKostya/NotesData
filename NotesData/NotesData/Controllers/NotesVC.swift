@@ -10,6 +10,8 @@ import UIKit
 
 class NotesVC: UIViewController {
 
+    
+    @IBOutlet weak var tableView: UITableView!
     //var notes = [Note]()
     
     override func viewDidLoad() {
@@ -20,17 +22,30 @@ class NotesVC: UIViewController {
     }
     
     func loadNotes(withPage page: Int, limit: Int) {
-//        CoreDataManager.shared.loadNotes(withPage: page, limit: limit) { (notes, error) in
-//            if  error != nil {
-//                return
-//            }
-//            for note in notes {
-//                print(note.text)
-//            }
-//            
-//        }
+        
     }
 
 
 
+}
+
+extension NotesVC: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "asdfasdfsadf"
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NoteTVC", for: indexPath) as! NoteTVC
+        
+        cell.textView.text = "fasdfasd"
+        return cell
+    }
 }

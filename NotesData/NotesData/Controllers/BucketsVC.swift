@@ -10,8 +10,9 @@ import UIKit
 
 class BucketsVC: UIViewController {
 
+    @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
-    
+    var needToReload = false
     var buckets = [Bucket]()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,15 +20,35 @@ class BucketsVC: UIViewController {
         self.loadBuckets()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if self.needToReload {
+            self.needToReload = false
+            self.loadBuckets()
+        } else {
+            self.tableView.reloadData()
+        }
+        
+        
+    }
+    
     func loadBuckets() {
-        CoreDataManager.shared.loadBuckets(withPage: 1, limit: 10) { (buckets, error) in
+        CoreDataManager.shared.loadBuckets() { (buckets, error) in
+            if error != nil {
+                UIAlertController.alert(withTitle: "Error", message: error!.localizedDescription).show(inController: self)
+                return
+            }
             self.buckets = buckets
             self.tableView.reloadData()
         }
     }
 
     
+    @IBAction func editAction(_ sender: UIBarButtonItem) {
+        self.tableView.setEditing(!self.tableView.isEditing, animated: true)
+    }
     @IBAction func addBucket(_ sender: UIBarButtonItem) {
+        self.needToReload = true
         self.showBucketDetailVC(bucket: nil)
     }
     
@@ -45,6 +66,21 @@ class BucketsVC: UIViewController {
 extension BucketsVC : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.buckets.count
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let bucket = self.buckets[indexPath.row]
+            
+            CoreDataManager.shared.removeBucket(bucket: bucket, handler: { (error) in
+                if error == nil {
+                    self.buckets.remove(at: self.buckets.index(of: bucket)!)
+                    self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                } else {
+                    UIAlertController.alert(withTitle: "Error", message: error!.localizedDescription).show(inController: self)
+                }
+            })
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
