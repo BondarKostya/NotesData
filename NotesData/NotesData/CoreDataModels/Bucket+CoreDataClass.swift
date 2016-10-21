@@ -13,6 +13,10 @@ import UIKit
 public class Bucket: NSManagedObject {
 
     
+    func attributedString() -> NSMutableAttributedString {
+        return NSMutableAttributedString(string: self.title ?? "", attributes: [NSBackgroundColorAttributeName : self.bucketColor(), NSForegroundColorAttributeName : UIColor.white])
+    }
+    
     func bucketColor() -> UIColor {
         return UIColor.color(string: self.color ?? "")
     }

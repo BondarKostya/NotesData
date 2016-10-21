@@ -21,11 +21,11 @@
 		3D3355A21DB674D500BC0946 /* Bucket+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3355A11DB674D500BC0946 /* Bucket+CoreDataClass.swift */; };
 		3D3355A51DB6753700BC0946 /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3355A31DB6753700BC0946 /* Note+CoreDataClass.swift */; };
 		3D3355A61DB6753700BC0946 /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3355A41DB6753700BC0946 /* Note+CoreDataProperties.swift */; };
+		3D4FCED91DB8AF0E007E1E0B /* BucketSelectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FCED81DB8AF0E007E1E0B /* BucketSelectionVC.swift */; };
 		3D814AFB1DB79A99001B34B2 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D814AFA1DB79A99001B34B2 /* AlertManager.swift */; };
 		3D814AFE1DB7B532001B34B2 /* NoteTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D814AFD1DB7B532001B34B2 /* NoteTVC.swift */; };
 		3D814B001DB7B554001B34B2 /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D814AFF1DB7B554001B34B2 /* CoreDataError.swift */; };
 		3D814B021DB7B57F001B34B2 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D814B011DB7B57F001B34B2 /* CoreDataManager.swift */; };
-		3D814B041DB7B607001B34B2 /* BucketCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D814B031DB7B607001B34B2 /* BucketCVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,11 +45,11 @@
 		3D3355A11DB674D500BC0946 /* Bucket+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Bucket+CoreDataClass.swift"; path = "NotesData/CoreDataModels/Bucket+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3D3355A31DB6753700BC0946 /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Note+CoreDataClass.swift"; path = "NotesData/CoreDataModels/Note+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3D3355A41DB6753700BC0946 /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Note+CoreDataProperties.swift"; path = "NotesData/CoreDataModels/Note+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		3D4FCED81DB8AF0E007E1E0B /* BucketSelectionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BucketSelectionVC.swift; path = Controllers/BucketSelectionVC.swift; sourceTree = "<group>"; };
 		3D814AFA1DB79A99001B34B2 /* AlertManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertManager.swift; path = AlertManager/AlertManager.swift; sourceTree = "<group>"; };
 		3D814AFD1DB7B532001B34B2 /* NoteTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoteTVC.swift; path = Cells/NoteTVC.swift; sourceTree = "<group>"; };
 		3D814AFF1DB7B554001B34B2 /* CoreDataError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataError.swift; path = Models/CoreDataError.swift; sourceTree = "<group>"; };
 		3D814B011DB7B57F001B34B2 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataManager.swift; path = DataManager/CoreDataManager.swift; sourceTree = "<group>"; };
-		3D814B031DB7B607001B34B2 /* BucketCVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BucketCVC.swift; path = Cells/BucketCVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +117,7 @@
 				3D3355741DB63D1800BC0946 /* BucketsVC.swift */,
 				3D3355761DB63D8A00BC0946 /* NoteDetailVC.swift */,
 				3D3355831DB65B9000BC0946 /* BucketDetailVC.swift */,
+				3D4FCED81DB8AF0E007E1E0B /* BucketSelectionVC.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -142,7 +143,6 @@
 			children = (
 				3D3355811DB65AE900BC0946 /* BucketTVC.swift */,
 				3D814AFD1DB7B532001B34B2 /* NoteTVC.swift */,
-				3D814B031DB7B607001B34B2 /* BucketCVC.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -231,7 +231,6 @@
 				3D3355731DB63CFE00BC0946 /* NotesVC.swift in Sources */,
 				3D814AFB1DB79A99001B34B2 /* AlertManager.swift in Sources */,
 				3D33559E1DB6745900BC0946 /* Bucket+CoreDataProperties.swift in Sources */,
-				3D814B041DB7B607001B34B2 /* BucketCVC.swift in Sources */,
 				3D3355751DB63D1800BC0946 /* BucketsVC.swift in Sources */,
 				3D3355821DB65AE900BC0946 /* BucketTVC.swift in Sources */,
 				3D3355841DB65B9000BC0946 /* BucketDetailVC.swift in Sources */,
@@ -243,6 +242,7 @@
 				3D3355481DB6397000BC0946 /* AppDelegate.swift in Sources */,
 				3D3355A51DB6753700BC0946 /* Note+CoreDataClass.swift in Sources */,
 				3D814B021DB7B57F001B34B2 /* CoreDataManager.swift in Sources */,
+				3D4FCED91DB8AF0E007E1E0B /* BucketSelectionVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

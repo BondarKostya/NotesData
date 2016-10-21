@@ -12,4 +12,14 @@ import CoreData
 
 public class Note: NSManagedObject {
 
+    func bucketsAttributeString() -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString()
+        
+        for bucket in self.buckets as! Set<Bucket> {
+            attributedString.append(bucket.attributedString())
+            attributedString.append(NSAttributedString(string: " "))
+        }
+        
+        return attributedString
+    }
 }

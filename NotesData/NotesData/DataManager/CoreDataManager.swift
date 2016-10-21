@@ -21,40 +21,82 @@ class CoreDataManager {
         self.context = appDelegate?.persistentContainer.viewContext
     }
     
-//    func loadNotes(withPage page: Int, limit: Int, handler: @escaping ([Note],Error?) -> Void ) {
-//        
-//        let notesFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Note")
-//        notesFetchRequest.fetchLimit = limit
-//        notesFetchRequest.fetchOffset = (page - 1) * limit
-//        
-//        let asyncRequest = NSAsynchronousFetchRequest(fetchRequest: notesFetchRequest) { (asynchronousFetchResult) in
-//            DispatchQueue.main.async {
-//                let notes = asynchronousFetchResult.finalResult!.flatMap() { note in
-//                    return note as? Note
-//                }
-//                handler(notes,nil)
-//            }
-//        }
-//        do {
-//            try self.context?.execute(asyncRequest)
-//        } catch {
-//            print(error)
-//        }
-//    }
-//    
-//    func createNewNote(withDictionary noteDictionary: [String : AnyObject] , handler: (Bool) -> Void) {
-//        var newNote = NSEntityDescription.insertNewObject(forEntityName: "Note", into: self.context!) as! Note
-//        newNote = NoteBuilder().buildNote(note: newNote, dictionary: noteDictionary)
-//  
-//        do {
-//            try self.context!.save()
-//            handler(true)
-//        } catch {
-//            handler(false)
-//            fatalError("Failure to save context: \(error)")
-//        }
-//
-//    }
+    
+    //MARK: - Notes
+    
+    func removeNote(note: Note, handler: (Error?) -> Void) {
+        guard let note = try! self.context?.existingObject(with: note.objectID) as? Note  else {
+            handler(NSError.generateError(withMessage: "Not found"))
+            return
+        }
+        
+        self.context!.delete(note)
+        
+        do {
+            try self.context!.save()
+            handler(nil)
+        } catch {
+            handler(error)
+        }
+        
+    }
+    
+    func loadNotes(_ handler: @escaping ([Note],Error?) -> Void ) {
+        
+        let notesFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Note")
+        
+        let asyncRequest = NSAsynchronousFetchRequest(fetchRequest: notesFetchRequest) { (asynchronousFetchResult) in
+            DispatchQueue.main.async {
+                let notes = asynchronousFetchResult.finalResult!.flatMap() { note in
+                    return note as? Note
+                }
+                handler(notes,nil)
+            }
+        }
+        do {
+            try self.context?.execute(asyncRequest)
+        } catch {
+            handler([],error)
+        }
+    }
+
+    func createNewNote(buildNote: (Note) -> Void, handler: (Error?) -> Void)  {
+        let newNote = NSEntityDescription.insertNewObject(forEntityName: "Note", into: self.context!) as! Note
+        
+        buildNote(newNote)
+        
+        newNote.createdDate = NSDate()
+        newNote.accessedDate = NSDate()
+        newNote.modifiedDate = NSDate()
+  
+        do {
+            try self.context!.save()
+            handler(nil)
+        } catch {
+            handler(error)
+        }
+
+    }
+    
+    func updateNote(note: Note, updateNote: (Note) -> Void, handler: (Error?) -> Void) {
+        
+        guard let existingNote = try! self.context?.existingObject(with: note.objectID) as? Note  else {
+            self.createNewNote(buildNote: updateNote, handler: handler)
+            return
+        }
+        
+        updateNote(existingNote)
+        
+        existingNote.createdDate = NSDate()
+        existingNote.modifiedDate = NSDate()
+        
+        do {
+            try self.context!.save()
+            handler(nil)
+        } catch {
+            handler(error)
+        }
+    }
     
     //MARK: - Buckets
     

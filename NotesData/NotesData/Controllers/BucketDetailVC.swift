@@ -11,7 +11,7 @@ import UIKit
 class BucketDetailVC: UIViewController {
 
     @IBOutlet weak var nameTextField: UITextField!
-    
+    @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var colorTextField: UITextField!
     
     var isNew = true
@@ -24,7 +24,7 @@ class BucketDetailVC: UIViewController {
         super.viewDidLoad()
         
         self.setupPickerView()
-
+        
         if let bucket = self.bucket {
             self.nameTextField.text = bucket.title
             
@@ -72,6 +72,7 @@ class BucketDetailVC: UIViewController {
         if self.nameTextField.text?.isEmpty ?? false  {
             return
         }
+        self.saveButton.isEnabled = false
         if isNew {
             CoreDataManager.shared.createNewBucket(title: self.nameTextField.text!, buildBucket: { (bucket)  in
                     self.buildBucket(bucket: bucket)
@@ -80,6 +81,7 @@ class BucketDetailVC: UIViewController {
                         self.navigationController!.popViewController(animated: true)
                     } else {
                          UIAlertController.alert(withTitle: "Error", message: error!.localizedDescription).show(inController: self)
+                        self.saveButton.isEnabled = true
                     }
             })
         } else {
@@ -90,6 +92,7 @@ class BucketDetailVC: UIViewController {
                        self.navigationController!.popViewController(animated: true)
                     } else {
                         UIAlertController.alert(withTitle: "Error", message: error!.localizedDescription).show(inController: self)
+                        self.saveButton.isEnabled = true
                     }
                     
             })
@@ -130,6 +133,15 @@ extension BucketDetailVC : UIPickerViewDelegate, UIPickerViewDataSource {
 
 extension BucketDetailVC : UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == self.nameTextField {
+            let replaced = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            
+            if replaced.characters.count > 30 {
+                return false
+            } else {
+                return true
+            }
+        }
         return false
     }
 }

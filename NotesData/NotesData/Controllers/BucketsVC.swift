@@ -17,6 +17,7 @@ class BucketsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableView.tableFooterView = UIView()
         self.loadBuckets()
     }
     
@@ -28,8 +29,6 @@ class BucketsVC: UIViewController {
         } else {
             self.tableView.reloadData()
         }
-        
-        
     }
     
     func loadBuckets() {
