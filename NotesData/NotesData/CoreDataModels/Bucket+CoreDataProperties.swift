@@ -2,13 +2,13 @@
 //  Bucket+CoreDataProperties.swift
 //  NotesData
 //
-//  Created by mini on 10/18/16.
+//  Created by mini on 10/21/16.
 //  Copyright © 2016 bondar.k.dev. All rights reserved.
 //
 
 import Foundation
 import CoreData
-
+import UIKit
 
 extension Bucket {
 
@@ -16,10 +16,10 @@ extension Bucket {
         return NSFetchRequest<Bucket>(entityName: "Bucket");
     }
 
+    @NSManaged public var color: UIColor?
     @NSManaged public var createdDate: NSDate?
     @NSManaged public var modifiedDate: NSDate?
     @NSManaged public var title: String?
-    @NSManaged public var color: String?
     @NSManaged public var notes: NSSet?
 
 }

@@ -13,20 +13,13 @@ import UIKit
 public class Bucket: NSManagedObject {
 
     func sortedNotes(ascending: Bool) -> [Note] {
-        let sortedArray = (self.notes?.allObjects as! [Note]).sorted(by: {  ascending ? $0.text! < $1.text! : $0.text! > $1.text! })
+        let sortedArray = (self.notes?.allObjects as! [Note]).sorted(by: {  ascending ? $0.text ?? "" < $1.text ?? "" : $0.text ?? "" > $1.text ?? "" })
         return sortedArray
     }
     
     func attributedString() -> NSMutableAttributedString {
-        return NSMutableAttributedString(string: self.title ?? "", attributes: [NSBackgroundColorAttributeName : self.bucketColor(), NSForegroundColorAttributeName : UIColor.white])
+        return NSMutableAttributedString(string: self.title ?? "", attributes: [NSBackgroundColorAttributeName : self.color!, NSForegroundColorAttributeName : UIColor.white])
     }
-    
-    func bucketColor() -> UIColor {
-        return UIColor.color(string: self.color ?? "")
-    }
-    
-    func setColorString(withColor color: UIColor) {
-        self.color = color.colorName()
-    }
+
 
 }
