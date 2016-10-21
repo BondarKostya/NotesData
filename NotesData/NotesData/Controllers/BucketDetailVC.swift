@@ -77,7 +77,7 @@ class BucketDetailVC: UIViewController {
         self.saveButton.isEnabled = false
         
         if isNew {
-            CoreDataManager.shared.createNewBucket(title: self.nameTextField.text!, buildBucket: { (bucket)  in
+            CoreDataManager.shared.createNewBucket(withTitle: self.nameTextField.text!, buildBucket: { (bucket)  in
                     self.buildBucket(bucket: bucket)
                 }, handler: { error in
                     if error == nil {
@@ -88,7 +88,7 @@ class BucketDetailVC: UIViewController {
                     }
             })
         } else {
-            CoreDataManager.shared.updateBucket(bucket: self.bucket!, updateBucket: { (bucket) in
+            CoreDataManager.shared.update(self.bucket!, updateBucket: { (bucket) in
                     self.buildBucket(bucket: bucket)
                 }, handler: { error in
                     if error == nil {

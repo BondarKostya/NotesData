@@ -27,7 +27,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jRl-4a-ufi" id="jRt-1u-F2P">
-                                            <frame key="frameInset" width="375" height="199.5"/>
+                                            <frame key="frameInset" width="375" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zUb-Fy-dwo">
@@ -222,7 +222,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kw1-i7-aRb" id="QOO-Fj-Ssx">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xpz-4f-0vG">
@@ -300,11 +300,11 @@
             </objects>
             <point key="canvasLocation" x="117.59999999999999" y="123.68815592203899"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Notes-->
         <scene sceneID="0sw-hc-7JP">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nVB-dd-fcH" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="recents" id="Ed5-xn-KKP"/>
+                    <tabBarItem key="tabBarItem" title="Notes" image="notes" id="Ed5-xn-KKP"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="aHx-l9-fdQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -336,10 +336,10 @@
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="20" maxX="0.0" maxY="20"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="BucketTVC" id="abj-kt-Qnw" customClass="BucketTVC" customModule="NotesData" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="92" width="1000" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="abj-kt-Qnw" id="PNn-Pr-Ups">
-                                            <frame key="frameInset" width="342" height="43.5"/>
+                                            <frame key="frameInset" width="342" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WJm-0e-9LZ">
@@ -485,11 +485,11 @@
             </objects>
             <point key="canvasLocation" x="2613" y="537"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Buckets-->
         <scene sceneID="SZB-Ju-Gct">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UP8-wa-xJu" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="bookmarks" id="yV8-xd-L7T"/>
+                    <tabBarItem key="tabBarItem" title="Buckets" image="tag" id="yV8-xd-L7T"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="AEV-U3-jqG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -505,4 +505,8 @@
             <point key="canvasLocation" x="1057" y="537"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="notes" width="16" height="16"/>
+        <image name="tag" width="16" height="16"/>
+    </resources>
 </document>

@@ -13,7 +13,7 @@ class BucketsVC: UIViewController {
     @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     
-    var needToReload = false
+    var isNeedToReload = false
     var buckets = [Bucket]()
     
     override func viewDidLoad() {
@@ -26,8 +26,8 @@ class BucketsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if self.needToReload {
-            self.needToReload = false
+        if self.isNeedToReload {
+            self.isNeedToReload = false
             self.loadBuckets()
         } else {
             self.tableView.reloadData()
@@ -51,7 +51,7 @@ class BucketsVC: UIViewController {
     }
     
     @IBAction func addBucket(_ sender: UIBarButtonItem) {
-        self.needToReload = true
+        self.isNeedToReload = true
         self.showBucketDetailVC(bucket: nil)
     }
     
@@ -75,7 +75,7 @@ extension BucketsVC : UITableViewDelegate, UITableViewDataSource {
         if editingStyle == .delete {
             let bucket = self.buckets[indexPath.row]
             
-            CoreDataManager.shared.removeBucket(bucket: bucket, handler: { (error) in
+            CoreDataManager.shared.remove(bucket, handler: { (error) in
                 if error == nil {
                     self.buckets.remove(at: self.buckets.index(of: bucket)!)
                     self.tableView.deleteRows(at: [indexPath], with: .automatic)

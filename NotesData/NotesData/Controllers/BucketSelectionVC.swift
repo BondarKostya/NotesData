@@ -17,7 +17,7 @@ class BucketSelectionVC: UIViewController {
     
     var buckets = [Bucket]()
     
-    var needToReload = false
+    var isNeedToReload = false
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,7 +37,7 @@ class BucketSelectionVC: UIViewController {
     }
     
     @IBAction func addNewBucketAction(_ sender: AnyObject) {
-        self.needToReload = true
+        self.isNeedToReload = true
 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let bucketDetailVC = storyboard.instantiateViewController(withIdentifier: "BucketDetailVC") as! BucketDetailVC
@@ -48,8 +48,8 @@ class BucketSelectionVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if self.needToReload {
-            self.needToReload = false
+        if self.isNeedToReload {
+            self.isNeedToReload = false
             self.loadBuckets()
         } else {
             self.tableView.reloadData()

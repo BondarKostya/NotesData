@@ -86,7 +86,7 @@ class NoteDetailVC: UIViewController {
                 self.navigationController!.popViewController(animated: true)
            })
         } else {
-            CoreDataManager.shared.updateNote(note: self.note!, updateNote: { (note) in
+            CoreDataManager.shared.update(self.note!, updateNote: { (note) in
                 note.text = self.noteTextView.text!
                 note.buckets = self.note!.buckets
             }, handler: { (error) in

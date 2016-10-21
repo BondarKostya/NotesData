@@ -15,7 +15,7 @@ class NotesVC: UIViewController {
     
     var notesWithoutBucket = [Note]()
     
-    var needToReload = false
+    var isNeedToReload = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,8 +30,8 @@ class NotesVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if self.needToReload {
-            self.needToReload = false
+        if self.isNeedToReload {
+            self.isNeedToReload = false
             self.loadNotes()
         } else {
             self.tableView.reloadData()
@@ -59,7 +59,7 @@ class NotesVC: UIViewController {
     }
 
     @IBAction func addNewNoteAction(_ sender: UIBarButtonItem) {
-        self.needToReload = true
+        self.isNeedToReload = true
         self.showNoteDetail(withNote: nil)
     }
     
@@ -93,7 +93,7 @@ extension NotesVC: UITableViewDelegate, UITableViewDataSource {
                 
                 let note = self.notesWithoutBucket[indexPath.row]
                 
-                CoreDataManager.shared.removeNote(note: note, handler: { (error) in
+                CoreDataManager.shared.remove(note, handler: { (error) in
                     if error == nil {
                         self.notesWithoutBucket.remove(at: indexPath.row)
                         self.tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -106,7 +106,7 @@ extension NotesVC: UITableViewDelegate, UITableViewDataSource {
             
             let note = self.buckets[indexPath.section].sortedNotes(ascending: true)[indexPath.row]
             
-            CoreDataManager.shared.removeNote(note: note, handler: { (error) in
+            CoreDataManager.shared.remove(note, handler: { (error) in
                 if error == nil {
                     self.tableView.reloadData()
                 } else {
@@ -139,7 +139,7 @@ extension NotesVC: UITableViewDelegate, UITableViewDataSource {
         var note:Note
         if !self.notesWithoutBucket.isEmpty && self.buckets.count == indexPath.section {
             note = self.notesWithoutBucket[indexPath.row]
-            self.needToReload = true
+            self.isNeedToReload = true
             
         }else {
             note = self.buckets[indexPath.section].sortedNotes(ascending: true)[indexPath.row]

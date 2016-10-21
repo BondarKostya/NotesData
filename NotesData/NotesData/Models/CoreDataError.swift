@@ -9,7 +9,7 @@
 import Foundation
 
 extension NSError {
-    class func generateError(withMessage message: String) -> NSError {
+    class func coreDataError(withMessage message: String) -> NSError {
         let userInfo: [NSObject : String] =
         [
                 NSLocalizedDescriptionKey as NSObject : message

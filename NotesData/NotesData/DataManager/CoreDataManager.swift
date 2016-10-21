@@ -47,9 +47,9 @@ class CoreDataManager {
     
     //MARK: - Notes
     
-    func removeNote(note: Note, handler: (Error?) -> Void) {
+    func remove(_ note: Note, handler: (Error?) -> Void) {
         guard let note = try! self.context?.existingObject(with: note.objectID) as? Note  else {
-            handler(NSError.generateError(withMessage: "Not found"))
+            handler(NSError.coreDataError(withMessage: "Not found"))
             return
         }
         
@@ -64,7 +64,7 @@ class CoreDataManager {
         
     }
     
-    func loadNotes(withoutBucket: Bool = false, _ handler: @escaping ([Note],Error?) -> Void ) {
+    func loadNotes(withoutBucket: Bool = false, _ handler: @escaping ([Note], Error?) -> Void ) {
         
         let notesFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Note")
         
@@ -103,7 +103,7 @@ class CoreDataManager {
 
     }
     
-    func updateNote(note: Note, updateNote: (Note) -> Void, handler: (Error?) -> Void) {
+    func update(_ note: Note, updateNote: (Note) -> Void, handler: (Error?) -> Void) {
         
         guard let existingNote = try! self.context?.existingObject(with: note.objectID) as? Note  else {
             self.createNewNote(buildNote: updateNote, handler: handler)
@@ -124,7 +124,7 @@ class CoreDataManager {
     
     //MARK: - Buckets
     
-    func loadBuckets(_ handler: @escaping ([Bucket],Error?) -> Void ) {
+    func loadBuckets(_ handler: @escaping ([Bucket], Error?) -> Void ) {
     
         let bucketsFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Bucket")
     
@@ -143,14 +143,14 @@ class CoreDataManager {
     
     
     
-    func createNewBucket(title: String,buildBucket: (Bucket) -> Void, handler: (Error?) -> Void) {
+    func createNewBucket(withTitle title: String, buildBucket: (Bucket) -> Void, handler: (Error?) -> Void) {
         let titleCheckRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Bucket")
         titleCheckRequest.predicate = NSPredicate(format: " title == %@", title)
         
         let existingBucket = (try? self.context!.fetch(titleCheckRequest) as! [Bucket]) ?? []
         
         if existingBucket.count > 0 {
-            handler(NSError.generateError(withMessage: "Bucket with \"\(title)\" existing"))
+            handler(NSError.coreDataError(withMessage: "Bucket with \"\(title)\" existing"))
             return
         }
         
@@ -169,10 +169,10 @@ class CoreDataManager {
         }
     }
     
-    func updateBucket(bucket: Bucket, updateBucket: (Bucket) -> Void, handler: (Error?) -> Void) {
+    func update(_ bucket: Bucket, updateBucket: (Bucket) -> Void, handler: (Error?) -> Void) {
         
         guard let existingBucket = try! self.context?.existingObject(with: bucket.objectID) as? Bucket  else {
-            self.createNewBucket(title: bucket.title!, buildBucket: updateBucket, handler: handler)
+            self.createNewBucket(withTitle: bucket.title!, buildBucket: updateBucket, handler: handler)
             return
         }
         
@@ -188,9 +188,9 @@ class CoreDataManager {
         }
     }
     
-    func removeBucket(bucket: Bucket, handler: (Error?) -> Void) {
+    func remove(_ bucket: Bucket, handler: (Error?) -> Void) {
         guard let bucket = try! self.context?.existingObject(with: bucket.objectID) as? Bucket  else {
-            handler(NSError.generateError(withMessage: "Not found"))
+            handler(NSError.coreDataError(withMessage: "Not found"))
             return
         }
     
