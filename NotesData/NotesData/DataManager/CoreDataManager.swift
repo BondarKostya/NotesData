@@ -41,15 +41,17 @@ class CoreDataManager {
         
     }
     
-    func loadNotes(_ handler: @escaping ([Note],Error?) -> Void ) {
+    func loadNotes(withoutBucket: Bool = false, _ handler: @escaping ([Note],Error?) -> Void ) {
         
         let notesFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Note")
         
+        if withoutBucket {
+            notesFetchRequest.predicate = NSPredicate(format: " buckets.@count == 0")
+        }
+        
         let asyncRequest = NSAsynchronousFetchRequest(fetchRequest: notesFetchRequest) { (asynchronousFetchResult) in
             DispatchQueue.main.async {
-                let notes = asynchronousFetchResult.finalResult!.flatMap() { note in
-                    return note as? Note
-                }
+                let notes = asynchronousFetchResult.finalResult! as! [Note]
                 handler(notes,nil)
             }
         }
@@ -86,8 +88,7 @@ class CoreDataManager {
         }
         
         updateNote(existingNote)
-        
-        existingNote.createdDate = NSDate()
+
         existingNote.modifiedDate = NSDate()
         
         do {
@@ -106,9 +107,7 @@ class CoreDataManager {
     
         let asyncRequest = NSAsynchronousFetchRequest(fetchRequest: bucketsFetchRequest) { (asynchronousFetchResult) in
             DispatchQueue.main.async {
-                let notes = asynchronousFetchResult.finalResult!.flatMap() { note in
-                    return note as? Bucket
-                }
+                let notes = asynchronousFetchResult.finalResult! as! [Bucket]
                 handler(notes,nil)
             }
         }
@@ -156,7 +155,6 @@ class CoreDataManager {
         
         updateBucket(existingBucket)
 
-        existingBucket.createdDate = NSDate()
         existingBucket.modifiedDate = NSDate()
         
         do {
@@ -172,7 +170,7 @@ class CoreDataManager {
             handler(NSError.generateError(withMessage: "Not found"))
             return
         }
-        
+    
         self.context!.delete(bucket)
         
         do {

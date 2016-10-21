@@ -12,8 +12,10 @@ class BucketsVC: UIViewController {
 
     @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
+    
     var needToReload = false
     var buckets = [Bucket]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,6 +25,7 @@ class BucketsVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         if self.needToReload {
             self.needToReload = false
             self.loadBuckets()
@@ -46,6 +49,7 @@ class BucketsVC: UIViewController {
     @IBAction func editAction(_ sender: UIBarButtonItem) {
         self.tableView.setEditing(!self.tableView.isEditing, animated: true)
     }
+    
     @IBAction func addBucket(_ sender: UIBarButtonItem) {
         self.needToReload = true
         self.showBucketDetailVC(bucket: nil)
@@ -90,8 +94,8 @@ extension BucketsVC : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BucketTVC", for: indexPath) as! BucketTVC
         let bucket = buckets[indexPath.row]
-        cell.setupView(withBucket: bucket)
         
+        cell.setupView(withBucket: bucket)
         return cell
     }
 }

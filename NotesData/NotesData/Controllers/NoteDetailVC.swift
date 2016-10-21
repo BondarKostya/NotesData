@@ -13,6 +13,7 @@ class NoteDetailVC: UIViewController {
     @IBOutlet weak var noteTextView: UITextView!
     @IBOutlet weak var bucketsLabel: UILabel!
     @IBOutlet weak var saveButton: UIButton!
+    
     var note: Note?
     
     var buckets = Set<Bucket>()
@@ -36,6 +37,7 @@ class NoteDetailVC: UIViewController {
     func setupBucketsLabel() {
         if let note = self.note {
             bucketsLabel.attributedText = note.bucketsAttributeString()
+            
         } else {
             let attributedString = NSMutableAttributedString()
             
@@ -65,10 +67,13 @@ class NoteDetailVC: UIViewController {
     }
     
     @IBAction func saveAction(_ sender: UIButton) {
+        
         if self.noteTextView.text.isEmpty {
             UIAlertController.alert(withTitle: "", message: "Please, input note text").show(inController: self)
         }
+        
         self.saveButton.isEnabled = false
+        
         if isNew {
             CoreDataManager.shared.createNewNote(buildNote: { (note) in
                 note.text = self.noteTextView.text!
@@ -83,7 +88,7 @@ class NoteDetailVC: UIViewController {
         } else {
             CoreDataManager.shared.updateNote(note: self.note!, updateNote: { (note) in
                 note.text = self.noteTextView.text!
-                note.buckets = self.buckets as NSSet!
+                note.buckets = self.note!.buckets
             }, handler: { (error) in
                 if error != nil {
                     UIAlertController.alert(withTitle: "Error", message: error!.localizedDescription).show(inController: self)
@@ -101,6 +106,7 @@ class NoteDetailVC: UIViewController {
         bucketSelectionVC.selectedBuckets = self.buckets
         
         bucketSelectionVC.selectedBucketsCallback = { (buckets) in
+            
             if self.isNew {
                 self.buckets = buckets
             }else {

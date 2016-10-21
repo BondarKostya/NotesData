@@ -22,4 +22,6 @@ public class Note: NSManagedObject {
         
         return attributedString
     }
+    
+    
 }

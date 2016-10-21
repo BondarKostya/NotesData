@@ -203,7 +203,7 @@
             </objects>
             <point key="canvasLocation" x="2613" y="-257"/>
         </scene>
-        <!--Bucket SelectionVC-->
+        <!--Buckets-->
         <scene sceneID="aBu-g7-wdx">
             <objects>
                 <viewController storyboardIdentifier="BucketSelectionVC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="xHq-lV-zgU" customClass="BucketSelectionVC" customModule="NotesData" customModuleProvider="target" sceneMemberID="viewController">
@@ -277,6 +277,13 @@
                             <constraint firstItem="OI4-Xb-8ed" firstAttribute="top" secondItem="YcU-y5-3ms" secondAttribute="bottom" id="vU2-xL-aWo"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Buckets" id="hSS-av-f0s">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="T1H-rO-i32">
+                            <connections>
+                                <action selector="addNewBucketAction:" destination="xHq-lV-zgU" id="q2I-go-xTq"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="OI4-Xb-8ed" id="v4T-Ra-7qy"/>
                     </connections>

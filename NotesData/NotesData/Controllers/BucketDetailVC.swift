@@ -16,7 +16,7 @@ class BucketDetailVC: UIViewController {
     
     var isNew = true
     var pickerView = UIPickerView()
-    var colors = [UIColor.red, UIColor.green, UIColor.blue, UIColor.magenta, UIColor.purple, UIColor.brown, UIColor.darkGray, UIColor.black, UIColor.cyan, UIColor.orange]
+    var colors = [UIColor.red, UIColor.green, UIColor.blue, UIColor.magenta, UIColor.purple, UIColor.brown, UIColor.darkGray, UIColor.black, UIColor.orange]
     
     var bucket: Bucket?
     
@@ -69,10 +69,13 @@ class BucketDetailVC: UIViewController {
     }
     
     @IBAction func saveAction(_ sender: UIButton) {
+        
         if self.nameTextField.text?.isEmpty ?? false  {
             return
         }
+        
         self.saveButton.isEnabled = false
+        
         if isNew {
             CoreDataManager.shared.createNewBucket(title: self.nameTextField.text!, buildBucket: { (bucket)  in
                     self.buildBucket(bucket: bucket)

@@ -36,8 +36,18 @@ class BucketSelectionVC: UIViewController {
         }
     }
     
+    @IBAction func addNewBucketAction(_ sender: AnyObject) {
+        self.needToReload = true
+
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let bucketDetailVC = storyboard.instantiateViewController(withIdentifier: "BucketDetailVC") as! BucketDetailVC
+        
+        self.navigationController?.show(bucketDetailVC, sender: self)
+
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         if self.needToReload {
             self.needToReload = false
             self.loadBuckets()
@@ -71,9 +81,11 @@ extension BucketSelectionVC : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCell = tableView.cellForRow(at: indexPath)!
+        
         selectedCell.accessoryType = .checkmark
         
         let bucket = buckets[indexPath.row]
+        
         if self.selectedBuckets!.contains(bucket) {
             self.selectedBuckets!.remove(bucket)
         }else {
@@ -84,8 +96,11 @@ extension BucketSelectionVC : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BucketTVC", for: indexPath) as! BucketTVC
+        
         let bucket = buckets[indexPath.row]
+        
         cell.setupView(withBucket: bucket)
+        
         if (selectedBuckets?.contains(bucket))! {
             cell.accessoryType = .checkmark
         }
