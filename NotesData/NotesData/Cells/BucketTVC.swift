@@ -15,6 +15,6 @@ class BucketTVC: UITableViewCell {
     
     func setupView(withBucket bucket: Bucket) {
         self.bucketNameLabel.text = bucket.title ?? ""
-        self.bucketColorView.backgroundColor = bucket.bucketColor()
+        self.bucketColorView.backgroundColor = bucket.color!
     }
 }

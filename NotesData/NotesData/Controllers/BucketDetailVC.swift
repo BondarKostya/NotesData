@@ -28,10 +28,10 @@ class BucketDetailVC: UIViewController {
         if let bucket = self.bucket {
             self.nameTextField.text = bucket.title
             
-            self.colorTextField.backgroundColor = bucket.bucketColor()
-            self.colorTextField.text = bucket.color
+            self.colorTextField.backgroundColor = bucket.color
+            self.colorTextField.text = bucket.color?.colorName()
             self.title = bucket.title
-            self.pickerView.selectRow(colors.index(of: bucket.bucketColor())!, inComponent: 0, animated: true)
+            self.pickerView.selectRow(colors.index(of: bucket.color!)!, inComponent: 0, animated: true)
             self.isNew = false
         }else {
             self.nameTextField.text = "New bucket"
@@ -104,7 +104,7 @@ class BucketDetailVC: UIViewController {
     }
     
     func buildBucket(bucket: Bucket) {
-        bucket.color = self.colorTextField.text ?? "red"
+        bucket.color = self.colorTextField.backgroundColor
         bucket.title = self.nameTextField.text ?? "Wrong"
     }
     
