@@ -171,16 +171,27 @@
                                     <action selector="saveAction:" destination="QiX-tY-JdL" eventType="touchUpInside" id="Y9N-Cr-b9U"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XKb-KZ-2PN">
+                                <state key="normal" title="Dictate" image="micropnone">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="dictateButtonAction:" destination="QiX-tY-JdL" eventType="touchUpInside" id="nHP-hd-dZ3"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="mAH-xF-y8v" firstAttribute="top" secondItem="uK1-16-MsW" secondAttribute="bottom" constant="15" id="0Kp-N4-vdY"/>
                             <constraint firstItem="8AZ-8J-ss9" firstAttribute="leading" secondItem="cRT-io-yWU" secondAttribute="leading" constant="15" id="3XH-PN-1Pc"/>
+                            <constraint firstItem="XKb-KZ-2PN" firstAttribute="centerY" secondItem="8AZ-8J-ss9" secondAttribute="centerY" id="5PS-wC-MAc"/>
                             <constraint firstItem="uK1-16-MsW" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Wgx-Qf-068" secondAttribute="bottom" constant="20" id="AUq-GD-T4r"/>
                             <constraint firstItem="Wgx-Qf-068" firstAttribute="top" secondItem="qq0-zm-tkp" secondAttribute="bottom" constant="10" id="Aol-Vu-Rtm"/>
+                            <constraint firstItem="qq0-zm-tkp" firstAttribute="centerX" secondItem="XKb-KZ-2PN" secondAttribute="centerX" id="BNV-yJ-s2w"/>
                             <constraint firstAttribute="trailing" secondItem="qq0-zm-tkp" secondAttribute="trailing" constant="15" id="LBV-95-jgR"/>
                             <constraint firstItem="Wgx-Qf-068" firstAttribute="leading" secondItem="cRT-io-yWU" secondAttribute="leading" constant="15" id="MJk-11-n9L"/>
                             <constraint firstItem="8AZ-8J-ss9" firstAttribute="top" secondItem="nvr-9L-sKu" secondAttribute="bottom" constant="20" id="N9z-Qk-4zM"/>
+                            <constraint firstAttribute="trailing" secondItem="XKb-KZ-2PN" secondAttribute="trailing" constant="15" id="YZv-ic-7UQ"/>
                             <constraint firstItem="3PT-x3-aPn" firstAttribute="top" secondItem="8AZ-8J-ss9" secondAttribute="bottom" constant="10" id="Zwo-Jv-X33"/>
                             <constraint firstItem="GHM-eq-atA" firstAttribute="leading" secondItem="cRT-io-yWU" secondAttribute="leading" constant="15" id="bGF-Vp-h4l"/>
                             <constraint firstAttribute="trailing" secondItem="Wgx-Qf-068" secondAttribute="trailing" constant="15" id="bT8-7t-SCR"/>
@@ -194,6 +205,7 @@
                     </view>
                     <connections>
                         <outlet property="bucketsLabel" destination="Wgx-Qf-068" id="H9O-yE-UqB"/>
+                        <outlet property="dictateButton" destination="XKb-KZ-2PN" id="NNh-uI-SlA"/>
                         <outlet property="noteTextView" destination="3PT-x3-aPn" id="1Vm-DH-sbq"/>
                         <outlet property="saveButton" destination="uK1-16-MsW" id="W01-XW-Wbm"/>
                     </connections>
@@ -506,6 +518,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="micropnone" width="32" height="32"/>
         <image name="notes" width="16" height="16"/>
         <image name="tag" width="16" height="16"/>
     </resources>

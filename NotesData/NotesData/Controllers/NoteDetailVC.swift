@@ -18,6 +18,8 @@ class NoteDetailVC: UIViewController {
     
     var buckets = Set<Bucket>()
     
+    @IBOutlet weak var dictateButton: UIButton!
+    
     var isNew = true
     
     override func viewDidLoad() {
@@ -34,6 +36,8 @@ class NoteDetailVC: UIViewController {
         
     }
     
+    @IBAction func dictateButtonAction(_ sender: AnyObject) {
+    }
     func setupBucketsLabel() {
         if let note = self.note {
             bucketsLabel.attributedText = note.bucketsAttributeString()
