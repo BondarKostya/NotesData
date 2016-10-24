@@ -14,6 +14,8 @@ class NoteDetailVC: UIViewController {
     @IBOutlet weak var bucketsLabel: UILabel!
     @IBOutlet weak var saveButton: UIButton!
     
+    var speechRecognizer = SpeechRecognizer()
+    
     var note: Note?
     
     var buckets = Set<Bucket>()
@@ -25,6 +27,8 @@ class NoteDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.speechRecognizer.delegate = self
+        
         if let note = note {
             self.isNew = false
             noteTextView.text = note.text ?? ""
@@ -37,6 +41,9 @@ class NoteDetailVC: UIViewController {
     }
     
     @IBAction func dictateButtonAction(_ sender: AnyObject) {
+        self.speechRecognizer.authorizeSpeechRecognition()
+        
+        
     }
     func setupBucketsLabel() {
         if let note = self.note {
@@ -122,4 +129,41 @@ class NoteDetailVC: UIViewController {
     }
 
 
+}
+
+extension NoteDetailVC : UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        self.speechRecognizer.stopRecognize()
+        
+    }
+}
+
+extension NoteDetailVC : SpeechRecognitionDelegate {
+    
+    
+    func speechRecognized(_ text: String, error: Error?) {
+        print("Recognized text \(text)")
+    }
+    
+    func recognizerStartListen() {
+        print("start listen")
+    }
+    
+    func recognizerStopListen() {
+        print("stop listen")
+    }
+    
+    func authorizationResponse(_ status: SpeechRecognizer.SpeechRecognizerAuthorizationStatus) {
+        switch status {
+        case .authorized: print("Auth")
+            self.speechRecognizer.startRecognize()
+        case .denied: print("denied")
+        case .notDetermined: print("notDetermined")
+        case .restricted: print("restricted")
+        }
+    }
+    
+    func speechReconizer(availabilityDidChange available: Bool) {
+        print("Availability \(available)")
+    }
 }

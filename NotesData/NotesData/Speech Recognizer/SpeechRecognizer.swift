@@ -12,7 +12,15 @@ import Speech
 
 protocol SpeechRecognitionDelegate {
 
-    func authorizationResponse(withStatus: SpeechRecognizer.SpeechRecognizerAuthorizationStatus)
+    func authorizationResponse(_ status: SpeechRecognizer.SpeechRecognizerAuthorizationStatus)
+    
+    func speechRecognized(_ text: String, error: Error?)
+    
+    func recognizerStopListen()
+    
+    func recognizerStartListen()
+    
+    func speechReconizer(availabilityDidChange available: Bool)
 }
 
 class SpeechRecognizer: NSObject {
@@ -60,12 +68,24 @@ class SpeechRecognizer: NSObject {
         
         SFSpeechRecognizer.requestAuthorization { (authStatus) in
             if let delegate = self.delegate {
-                delegate.authorizationResponse(withStatus: SpeechRecognizer.SpeechRecognizerAuthorizationStatus(authStatus))
+                delegate.authorizationResponse(SpeechRecognizer.SpeechRecognizerAuthorizationStatus(authStatus))
             }
         }
     }
     
+    func stopRecognize() {
+        if let recognitionTask = recognitionTask {
+            recognitionTask.cancel()
+            self.recognitionTask = nil
+        }
+        self.audioEngine.stop()
+    }
+    
     func startRecognize() {
+        
+        if self.speechRecognizer.isAvailable {
+            
+        }
         
         if let recognitionTask = recognitionTask {
             recognitionTask.cancel()
@@ -96,9 +116,45 @@ class SpeechRecognizer: NSObject {
         
         recognitionRequest.shouldReportPartialResults = true
         
-        recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest, delegate: self)
+        recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { result, error in
+            var isFinal = false
+            guard let delegate = self.delegate else {
+                self.audioEngine.stop()
+                return
+            }
+            
+            if let result = result {
+                let recognizedText = result.bestTranscription.formattedString
+                print("Recognized text \(recognizedText)")
+                
+                delegate.speechRecognized(recognizedText, error: nil)
+                isFinal = result.isFinal
+            }
+            
+            if error != nil || isFinal {
+                self.audioEngine.stop()
+                delegate.recognizerStopListen()
+                
+            }
+        }
         
+        let recordingFormat = inputNode.outputFormat(forBus: 0)
         
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer, AVAudioTime) in
+            self.recognitionRequest?.append(buffer)
+        }
+        
+        audioEngine.prepare()
+        
+        do {
+            try audioEngine.start()
+        } catch {
+            //TODO: Error hadnle
+        }
+        
+        if let delegate = self.delegate {
+            delegate.recognizerStartListen()
+        }
         
     }
     
@@ -107,15 +163,19 @@ class SpeechRecognizer: NSObject {
 extension SpeechRecognizer: SFSpeechRecognitionTaskDelegate {
     
     func speechRecognitionTask(_ task: SFSpeechRecognitionTask, didHypothesizeTranscription transcription: SFTranscription) {
-        
+        guard let delegate = self.delegate else {
+            return
+        }
         
         if task.error != nil && task.isFinishing {
             let text = transcription.formattedString
-            //TODO: delegate call with recongized string
             
+            
+            delegate.speechRecognized(text, error: nil)
             
             
         }
+        delegate.speechRecognized("", error: task.error)
     }
     
     func speechRecognitionTask(_ task: SFSpeechRecognitionTask, didFinishSuccessfully successfully: Bool) {
@@ -130,6 +190,14 @@ extension SpeechRecognizer: SFSpeechRecognitionTaskDelegate {
 
 extension SpeechRecognizer:  SFSpeechRecognizerDelegate {
     func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
+        guard let delegate = delegate else {
+            return
+        }
         
+        if available {
+            delegate.speechReconizer(availabilityDidChange: true)
+        } else {
+            delegate.speechReconizer(availabilityDidChange: false)
+        }
     }
 }
