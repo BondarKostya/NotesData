@@ -80,7 +80,7 @@ class SpeechRecognizer: NSObject {
     
     private(set) var authorizedStatus = SpeechRecognizerAuthorizationStatus.notDetermined
     
-    private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "ru-RU"))!
+    private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: NSLocale.preferredLanguages[0]))!
     
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     
@@ -92,7 +92,7 @@ class SpeechRecognizer: NSObject {
     
     func authorizeSpeechRecognition() {
         self.speechRecognizer.delegate = self
-        
+
         SFSpeechRecognizer.requestAuthorization { (authStatus) in
             if let delegate = self.delegate {
                 self.authorizedStatus = SpeechRecognizerAuthorizationStatus(authStatus)
