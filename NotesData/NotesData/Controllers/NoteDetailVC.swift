@@ -41,6 +41,11 @@ class NoteDetailVC: UIViewController {
     }
     
     @IBAction func dictateButtonAction(_ sender: AnyObject) {
+        if self.speechRecognizer.isStart {
+            self.speechRecognizer.stopRecognize()
+        } else {
+            self.speechRecognizer.startRecognize()
+        }
         self.speechRecognizer.authorizeSpeechRecognition()
         
         
@@ -143,20 +148,24 @@ extension NoteDetailVC : SpeechRecognitionDelegate {
     
     func speechRecognized(_ text: String, error: Error?) {
         print("Recognized text \(text)")
+        
+        self.noteTextView.text = text
     }
     
     func recognizerStartListen() {
+        self.dictateButton.setTitle("Stop", for: .normal)
         print("start listen")
     }
     
     func recognizerStopListen() {
+        self.dictateButton.setTitle("Dictate", for: .normal)
         print("stop listen")
     }
     
     func authorizationResponse(_ status: SpeechRecognizer.SpeechRecognizerAuthorizationStatus) {
         switch status {
         case .authorized: print("Auth")
-            self.speechRecognizer.startRecognize()
+            //self.speechRecognizer.startRecognize()
         case .denied: print("denied")
         case .notDetermined: print("notDetermined")
         case .restricted: print("restricted")

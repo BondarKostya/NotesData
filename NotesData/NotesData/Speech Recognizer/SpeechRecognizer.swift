@@ -25,6 +25,12 @@ protocol SpeechRecognitionDelegate {
 
 class SpeechRecognizer: NSObject {
     
+    var isStart:Bool {
+        get {
+            return self.audioEngine.isRunning
+        }
+    }
+    
     internal enum SpeechRecognizerAuthorizationStatus : Int {
         
         case notDetermined
@@ -59,7 +65,7 @@ class SpeechRecognizer: NSObject {
     
     private var recognitionTask: SFSpeechRecognitionTask?
     
-    private let audioEngine = AVAudioEngine()
+    private var audioEngine = AVAudioEngine()
     
     var delegate: SpeechRecognitionDelegate?
     
@@ -74,18 +80,17 @@ class SpeechRecognizer: NSObject {
     }
     
     func stopRecognize() {
-        if let recognitionTask = recognitionTask {
-            recognitionTask.cancel()
+        if self.audioEngine.isRunning {
+            self.audioEngine.stop()
+            self.audioEngine.reset()
+            self.recognitionRequest?.endAudio()
+            self.recognitionTask?.finish()
+            self.recognitionRequest = nil
             self.recognitionTask = nil
         }
-        self.audioEngine.stop()
     }
     
     func startRecognize() {
-        
-        if self.speechRecognizer.isAvailable {
-            
-        }
         
         if let recognitionTask = recognitionTask {
             recognitionTask.cancel()
@@ -99,7 +104,7 @@ class SpeechRecognizer: NSObject {
             try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
 
         } catch {
-            
+            print(error)
         }
 
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
@@ -115,6 +120,7 @@ class SpeechRecognizer: NSObject {
         }
         
         recognitionRequest.shouldReportPartialResults = true
+        
         
         recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { result, error in
             var isFinal = false
@@ -135,6 +141,9 @@ class SpeechRecognizer: NSObject {
                 self.audioEngine.stop()
                 delegate.recognizerStopListen()
                 
+                self.recognitionRequest = nil
+                self.recognitionTask = nil
+                
             }
         }
         
@@ -144,12 +153,13 @@ class SpeechRecognizer: NSObject {
             self.recognitionRequest?.append(buffer)
         }
         
+        
         audioEngine.prepare()
         
         do {
             try audioEngine.start()
         } catch {
-            //TODO: Error hadnle
+            print(error)
         }
         
         if let delegate = self.delegate {
@@ -158,34 +168,6 @@ class SpeechRecognizer: NSObject {
         
     }
     
-}
-
-extension SpeechRecognizer: SFSpeechRecognitionTaskDelegate {
-    
-    func speechRecognitionTask(_ task: SFSpeechRecognitionTask, didHypothesizeTranscription transcription: SFTranscription) {
-        guard let delegate = self.delegate else {
-            return
-        }
-        
-        if task.error != nil && task.isFinishing {
-            let text = transcription.formattedString
-            
-            
-            delegate.speechRecognized(text, error: nil)
-            
-            
-        }
-        delegate.speechRecognized("", error: task.error)
-    }
-    
-    func speechRecognitionTask(_ task: SFSpeechRecognitionTask, didFinishSuccessfully successfully: Bool) {
-        if !successfully {
-            //TODO: Error with recognition - task.error
-        } else {
-            //task.
-        }
-        
-    }
 }
 
 extension SpeechRecognizer:  SFSpeechRecognizerDelegate {
