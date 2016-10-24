@@ -14,13 +14,15 @@ protocol SpeechRecognitionDelegate {
 
     func authorizationResponse(_ status: SpeechRecognizer.SpeechRecognizerAuthorizationStatus)
     
-    func speechRecognized(_ text: String, error: Error?)
+    func speechRecognized(_ text: String, error: Error?, isFinalText: Bool)
     
     func recognizerStopListen()
     
     func recognizerStartListen()
     
     func speechReconizer(availabilityDidChange available: Bool)
+    
+    func handle(_ error: Error)
 }
 
 class SpeechRecognizer: NSObject {
@@ -57,7 +59,26 @@ class SpeechRecognizer: NSObject {
                 
             }
         }
+        
+        func description() -> String {
+            switch self {
+            case .authorized:
+                return "Speech recognition - allowed"
+                
+            case .denied:
+                return "Speech recognition - "
+                
+            case .restricted:
+                return "Speech recognition - restricted"
+                
+            case .notDetermined:
+                return "Speech recognition - not determined"
+                
+            }
+        }
     }
+    
+    private(set) var authorizedStatus = SpeechRecognizerAuthorizationStatus.notDetermined
     
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "ru-RU"))!
     
@@ -74,7 +95,8 @@ class SpeechRecognizer: NSObject {
         
         SFSpeechRecognizer.requestAuthorization { (authStatus) in
             if let delegate = self.delegate {
-                delegate.authorizationResponse(SpeechRecognizer.SpeechRecognizerAuthorizationStatus(authStatus))
+                self.authorizedStatus = SpeechRecognizerAuthorizationStatus(authStatus)
+                delegate.authorizationResponse(self.authorizedStatus)
             }
         }
     }
@@ -82,20 +104,21 @@ class SpeechRecognizer: NSObject {
     func stopRecognize() {
         if self.audioEngine.isRunning {
             self.audioEngine.stop()
-            self.audioEngine.reset()
             self.recognitionRequest?.endAudio()
-            self.recognitionTask?.finish()
-            self.recognitionRequest = nil
-            self.recognitionTask = nil
         }
     }
     
     func startRecognize() {
         
+        guard let delegate = self.delegate else {
+            return
+        }
+        
         if let recognitionTask = recognitionTask {
             recognitionTask.cancel()
             self.recognitionTask = nil
         }
+        
         let audioSession = AVAudioSession.sharedInstance()
         do {
             
@@ -104,18 +127,16 @@ class SpeechRecognizer: NSObject {
             try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
 
         } catch {
-            print(error)
+            delegate.handle(error)
         }
 
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
 
         guard let inputNode = audioEngine.inputNode else {
-            //TODO: Error with text "Audio engine has no input node"
             return
         }
         
         guard let recognitionRequest = recognitionRequest else {
-            //TODO: Error with text "Unable to created a SFSpeechAudioBufferRecognitionRequest object"
             return
         }
         
@@ -131,20 +152,25 @@ class SpeechRecognizer: NSObject {
             
             if let result = result {
                 let recognizedText = result.bestTranscription.formattedString
-                print("Recognized text \(recognizedText)")
-                
-                delegate.speechRecognized(recognizedText, error: nil)
                 isFinal = result.isFinal
+                
+                delegate.speechRecognized(recognizedText, error: nil, isFinalText: isFinal)
             }
             
             if error != nil || isFinal {
                 self.audioEngine.stop()
+                inputNode.removeTap(onBus: 0)
                 delegate.recognizerStopListen()
                 
                 self.recognitionRequest = nil
                 self.recognitionTask = nil
                 
+                if error != nil {
+                    delegate.handle(error!)
+                }
+                
             }
+            
         }
         
         let recordingFormat = inputNode.outputFormat(forBus: 0)
@@ -159,7 +185,7 @@ class SpeechRecognizer: NSObject {
         do {
             try audioEngine.start()
         } catch {
-            print(error)
+            delegate.handle(error)
         }
         
         if let delegate = self.delegate {

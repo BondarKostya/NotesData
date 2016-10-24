@@ -13,21 +13,28 @@ class NoteDetailVC: UIViewController {
     @IBOutlet weak var noteTextView: UITextView!
     @IBOutlet weak var bucketsLabel: UILabel!
     @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var dictateButton: UIButton!
+    
+    var dictatedString = ""
+    
+    var existingString = ""
     
     var speechRecognizer = SpeechRecognizer()
     
     var note: Note?
     
     var buckets = Set<Bucket>()
-    
-    @IBOutlet weak var dictateButton: UIButton!
-    
+
     var isNew = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.speechRecognizer.authorizeSpeechRecognition()
         self.speechRecognizer.delegate = self
+        self.dictateButton.isEnabled = false
+        
+        self.noteTextView.delegate = self
         
         if let note = note {
             self.isNew = false
@@ -41,15 +48,22 @@ class NoteDetailVC: UIViewController {
     }
     
     @IBAction func dictateButtonAction(_ sender: AnyObject) {
-        if self.speechRecognizer.isStart {
-            self.speechRecognizer.stopRecognize()
+        if self.speechRecognizer.authorizedStatus  == .authorized {
+            if self.speechRecognizer.isStart {
+                self.speechRecognizer.stopRecognize()
+            } else {
+                self.view.endEditing(true)
+                self.existingString = self.noteTextView.text!
+                self.dictatedString = ""
+                self.speechRecognizer.startRecognize()
+            }
         } else {
-            self.speechRecognizer.startRecognize()
+            UIAlertController.alert(withTitle: "Error", message: self.speechRecognizer.authorizedStatus.description()).show(inController: self)
         }
-        self.speechRecognizer.authorizeSpeechRecognition()
-        
+            
         
     }
+    
     func setupBucketsLabel() {
         if let note = self.note {
             bucketsLabel.attributedText = note.bucketsAttributeString()
@@ -139,40 +153,52 @@ class NoteDetailVC: UIViewController {
 extension NoteDetailVC : UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         self.speechRecognizer.stopRecognize()
-        
     }
 }
 
 extension NoteDetailVC : SpeechRecognitionDelegate {
     
+    func handle(_ error: Error) {
+        UIAlertController.alert(withTitle: "Error", message: error.localizedDescription).show(inController: self)
+    }
     
-    func speechRecognized(_ text: String, error: Error?) {
-        print("Recognized text \(text)")
+    func speechRecognized(_ text: String, error: Error?, isFinalText: Bool) {
+        self.dictatedString = text
         
-        self.noteTextView.text = text
+        if isFinalText {
+            self.existingString = "\(self.existingString) \(self.dictatedString)"
+            self.dictatedString = ""
+            self.noteTextView.text = self.existingString
+        } else {
+            self.noteTextView!.text = "\(self.existingString) \(self.dictatedString)"
+        }
+
     }
     
     func recognizerStartListen() {
         self.dictateButton.setTitle("Stop", for: .normal)
-        print("start listen")
     }
     
     func recognizerStopListen() {
         self.dictateButton.setTitle("Dictate", for: .normal)
-        print("stop listen")
     }
     
     func authorizationResponse(_ status: SpeechRecognizer.SpeechRecognizerAuthorizationStatus) {
         switch status {
-        case .authorized: print("Auth")
-            //self.speechRecognizer.startRecognize()
-        case .denied: print("denied")
-        case .notDetermined: print("notDetermined")
-        case .restricted: print("restricted")
+        case .authorized:
+            self.dictateButton.setTitle("Dictate", for: .normal)
+            self.dictateButton.isEnabled = true
+        default:
+            self.dictateButton.setTitle("Not Allowed", for: .normal)
+            self.dictateButton.isEnabled = false
+            
         }
     }
     
     func speechReconizer(availabilityDidChange available: Bool) {
-        print("Availability \(available)")
+        if !available {
+            self.dictateButton.setTitle("Not available", for: .normal)
+            self.dictateButton.isEnabled = false
+        }
     }
 }
